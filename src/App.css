@@ -2,16 +2,18 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
   /* //background-color; */
-  height: 150px;
-  padding: 20px;
-  color: white;
+  height: 200px;
+  padding: 10px;
+  color: rgb(209, 199, 199);
+  background: rgb(191, 157, 196);
+
+}
+#logo-ux{
+  /* animation: App-logo-spin infinite 20s linear; */
+  display: inline-block;
+  width: 200px;
 }
 
 .App-title {
@@ -26,4 +28,22 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+.login-buttons{
+  display: inline-block;
+  width: 190px;
+  box-shadow: 1px 1px 1px grey;
+  white-space: nowrap;
+  margin: 1.5em auto;
+}
+#btn-google,
+#btn-crear{
+  background:black;
+  color: rgb(255, 255, 255);
+  border: thin solid #888;
+}
+
+#btn-google img{
+    width: 25px;
+    margin-right: 5%;
 }
