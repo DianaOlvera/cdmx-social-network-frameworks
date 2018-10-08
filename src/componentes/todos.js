@@ -1,0 +1,217 @@
+import React, { Component } from 'react';
+import firebase from 'firebase';
+
+
+let db = firebase.firestore();
+
+class Post extends Component{ 
+    
+    constructor(){
+        super();
+        this.removePost = this.removePost.bind(this);
+        this.editPost = this.editPost.bind(this);
+
+        this.state = ({
+            posts : [],
+            likes: 0
+          }) 
+
+
+    }
+          
+    componentDidMount(){
+      
+        db.collection("users").onSnapshot((querySnapshot) => {
+            const posts = [];
+           querySnapshot.forEach((doc) => {
+               //console.log(`${doc.id} => ${doc.data()}`);
+       
+               const {name,photo,post,likes } = doc.data();
+
+               posts.push({
+                
+                name, 
+                photo,
+                post,
+                id:doc.id,
+                likes
+                
+                
+               
+               
+              });
+
+           //console.log(doc.id)
+
+
+           });
+       
+           this.setState({
+                 
+            posts
+            
+        });
+       
+       });
+     
+    }
+
+
+//Borrar post
+
+removePost(id){
+
+    db.collection("users").doc(id).delete().then(()=> {
+
+        console.log("Document successfully deleted!");
+        
+    }).catch((error)=> {
+        console.error("Error removing document: ", error);
+    });  
+    
+}
+
+//Editar docuemnto 
+
+
+editPost(id){
+
+document.getElementById(id).readOnly = false;
+
+
+let buttonUpdate = document.getElementById("edit" + id);
+
+   buttonUpdate.innerHTML = "Guardar" 
+
+buttonUpdate.onclick = ()=> {
+const textRead = document.getElementById(id).value;
+console.log(textRead)
+const washingtonRef = db.collection("users").doc(id);
+
+   
+    return washingtonRef.update({
+        post: textRead
+    })
+    .then(()=> {
+        console.log("Document successfully updated!");
+       
+        document.getElementById(id).readOnly = true;
+         buttonUpdate.innerHTML = 'Editar';
+    })
+    .catch((error)=> {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
+
+}
+    }
+    
+
+    
+likes(id){  
+    
+    this.setState({likes:this.state.likes+1})  
+console.log(this.state.likes)
+
+const washingtonRef = db.collection("users").doc(id);
+      
+      
+      return washingtonRef.update({
+          likes: this.state.likes
+      })
+      .then(()=> {
+          console.log("Document successfully updated!");
+      })
+      .catch((error) => {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+
+
+
+
+
+   
+}
+
+disLikes(id){
+   
+        this.setState({likes:this.state.likes-1})
+    
+
+console.log(this.state.likes)
+const washingtonRef = db.collection("users").doc(id);
+      
+      
+return washingtonRef.update({
+    likes: this.state.likes
+})
+.then(()=> {
+    console.log("Document successfully updated!");
+})
+.catch((error) => {
+    // The document probably doesn't exist.
+    console.error("Error updating document: ", error);
+});
+      
+       
+
+
+}
+
+    
+render(){
+    const{posts}=this.state;
+return(  
+
+    
+    <div>
+    {posts.map((item) => (
+    
+    
+    <div key={item.id}>
+
+
+
+<div className="card mb-3 mt-5" id="cardPost">
+            <div className="card-header text-left">
+            <img  width="30" className="img-fluid z-depth-1 rounded-circle " src={item.photo} alt="no se encuentra imagen" /><span className="ml-2">{item.name}</span>
+           </div>  
+            
+
+ <div className="card-body mb-3">
+            <textarea id={item.id} className="form-control text-sm-left" readOnly >{item.post}
+            </textarea>
+              <div className="rounded-bottom mdb-c olor lighten-3 text-right pt-3">
+                <ul   className="list-unstyled list-inline font-small" >  
+                 
+                  <li className="list-inline-item pr-2"><a className="white-text"  id ={"edit" + item.id}  onClick={() => this.editPost(item.id)} >Editar</a></li>
+                  <li className="list-inline-item pr-2"><a className="white-text" id ='remove{item.id}' onClick={() => this.removePost(item.id)}  >Eliminar</a></li>
+                  <li className="list-inline-item pr-2"><a className="white-text" onClick={() => this.likes(item.id)}>Me gusta   {item.likes}</a></li>
+                  <li className="list-inline-item pr-2"><a className="white-text" onClick={() => this.disLikes(item.id)}>No me gusta</a></li>
+                </ul> 
+              </div>
+            </div>
+            </div>
+
+
+
+
+
+   
+    </div>
+))}
+   
+   
+    
+    </div>
+);
+
+}
+
+
+}
+
+
+
+export default Post;

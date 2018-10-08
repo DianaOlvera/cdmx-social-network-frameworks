@@ -3,11 +3,10 @@
 }
 
 .App-header {
-  /* //background-color; */
-  height: 200px;
+  height: 250px;
   padding: 10px;
   color: rgb(209, 199, 199);
-  background: rgb(191, 157, 196);
+  background: rgba(0, 0, 0, 0.993);
 
 }
 #logo-ux{
@@ -15,6 +14,12 @@
   display: inline-block;
   width: 200px;
 }
+#logo2-ux{
+  width:90px;
+height:90px;
+border-radius:150px;
+}
+
 
 .App-title {
   font-size: 2.6em;
