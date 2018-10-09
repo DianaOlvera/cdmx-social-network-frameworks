@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
+import fire from './componentes/firebase.js';
 import './App.css';
 import GoogleLogo from "./images/google-logo-icon-PNG-Transparent-Background.png";
 import Logo from "./images/logo.png";
 import Logo2 from "./images/logo2.png";
+import Post from './componentes/todos.js';
 import {
   Button,
   Collapse,
@@ -19,9 +21,8 @@ import {
   
   
 
- import Post from './componentes/todos.js';
-// import './componentes/Home'
- //import nav from'./componentes/nav';
+ 
+
  
 
 class App extends Component {
@@ -45,7 +46,7 @@ class App extends Component {
   }
 
   componentWillMount(){
-    firebase.auth().onAuthStateChanged(user =>{
+    fire.auth().onAuthStateChanged(user =>{
       //cuando inicie sesion se vera la informacion del usuario  
       this.setState({user});
     });
@@ -53,7 +54,7 @@ class App extends Component {
 
   handleAuth(){ 
     const provider = new firebase.auth.GoogleAuthProvider(); // hace la funcionalidad de google como proveedor
-    firebase.auth().signInWithPopup(provider) //llama a la api de firebase 
+    fire.auth().signInWithPopup(provider) //llama a la api de firebase 
     .then(result => console.log(`${result.user.email} inicio sesion`))
     .catch(error => console.log(error.message));
   }
@@ -76,7 +77,7 @@ class App extends Component {
 
   login(e){
     e.preventDefault();
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
     .then((u)=>{
     })
     .catch((error)=>{
@@ -87,7 +88,7 @@ class App extends Component {
     }
  createUser(e) {
     e.preventDefault();
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then(() => {
       alert('Cuenta creada exitosa')
       const userName = this.state.email;
@@ -136,14 +137,14 @@ handleChange(e){
         </Navbar>
           {/* <img width="100 "src= {this.state.user.photoURL} alt={this.state.user.displayName}/>
           <p>Hola {this.state.user.displayName}!</p> */}
-          <Post /> 
-          <form class="form">
+          {/* <Post />  */}
+          {/* <form class="form">
           <p>{this.state.user.displayName}!</p>
           <textarea class= "form-control" placeholder="Agrega un comentario"></textarea>
           <button className="btn btn-outline-dark" id="btn-publicar" onClick={this.login}>publicar</button>
-          </form>
+          </form> */}
 
-          
+          <Post/>
     </div>
     //<Redirect to ="/muro"/>
 
