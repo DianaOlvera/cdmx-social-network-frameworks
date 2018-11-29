@@ -1,5 +1,5 @@
 # Creando una Red Social. UX-COM
-
+![ux](https://github.com/DianaOlvera/cdmx-social-network-frameworks/blob/master/src/images/logo2.png)
 ## :woman: 
 
 Diseñar una red social dirigida a mujeres interesadas en el desarrollo de 
